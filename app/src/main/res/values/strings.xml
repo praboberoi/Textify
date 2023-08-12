@@ -11,4 +11,11 @@
     <string name="cancel">Cancel</string>
     <string name="preview_image">Preview Image</string>
     <string name="processing">Processing…</string>
+    <string name="use_saved_images">Saved Images</string>
+    <string name="camera">Camera</string>
+
+    <string name="change_language">Change Language</string>
+    <string name="english">English</string>
+    <string name="hindi">Hindi</string>
+
 </resources>

@@ -7,8 +7,8 @@ import androidx.appcompat.app.AlertDialog
 import nz.ac.uclive.pob16.textify.databinding.ShareDialogBinding
 
 class ShareDialog(context: Context, private var visionText: String?, private var imageURI: Uri?): AlertDialog(context) {
-    private lateinit var shareDialogBinding: ShareDialogBinding
-    private lateinit var shareDialog: AlertDialog
+    private var shareDialogBinding: ShareDialogBinding
+    private var shareDialog: AlertDialog
 
     init {
         val builder = Builder(context)

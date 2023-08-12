@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">टेक्स्टीफ़ाई</string>
+    <string name="title_activity_preview">पूर्वावलोकन</string>
+    <string name="title_edit">संपादित करें</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">अगला</string>
+    <string name="previous">पिछला</string>
+    <string name="include_image_title">छवि शामिल करें?</string>
+    <string name="include_image">क्या आप छवि शामिल करना चाहते हैं</string>
+    <string name="share">शेयर करें</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="preview_image">छवि का पूर्वावलोकन</string>
+    <string name="processing">प्रक्रिया चल रही है…</string>
+    <string name="use_saved_images">सहेजी गई छवियां</string>
+    <string name="camera">कैमरा</string>
+
+    <string name="change_language">भाषा बदलें</string>
+    <string name="english">अंग्रेज़ी</string>
+    <string name="hindi">हिंदी</string>
+</resources>

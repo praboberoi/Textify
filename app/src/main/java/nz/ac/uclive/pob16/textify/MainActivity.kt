@@ -15,12 +15,16 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import nz.ac.uclive.pob16.textify.databinding.ActivitySavedImagesBinding
 import nz.ac.uclive.pob16.textify.databinding.ChangeLanguageBinding
 import java.util.Locale
+import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -57,41 +61,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun savedImagesActivity() {
-        val imageList = mutableListOf<Image>()
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val selection: String? = null
-        val selectionArgs = arrayOf<String>()
-        val sortOrder: String? = MediaStore.Images.Media.DATE_MODIFIED
-
-        val cursor = contentResolver.query(
-            uri,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder
-        )
-
-        cursor?.let {
-            val columnIndexData = it.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-            val columnIndexFolderName = it.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-
-            while (it.moveToNext()) {
-                val absolutePathOfImage = it.getString(columnIndexData)
-                val folderName = it.getString(columnIndexFolderName)
-
-                // Assuming Image is a data class or model class that you have defined
-                // Replace with your own logic if necessary
-                val image = Image(absolutePathOfImage, folderName)
-                imageList.add(image)
-                Log.e("TESTING", imageList.toString())
-            }
-
-
-        }
-        cursor?.close()
-
-        // TODO: Use imageList to display or process the images further
+        val intent = Intent(this, SavedImages::class.java)
+        startActivity(intent)
     }
 
     private fun changeLanguageDialog() {

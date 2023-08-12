@@ -2,9 +2,9 @@ package nz.ac.uclive.pob16.textify.helper
 
 import android.net.Uri
 
-data class Image(val path: String, val name: String) {
+data class Image(val absolutePath: String, val id: Int) {
 
     override fun toString(): String {
-        return "path -> $path name -> $name"
+        return "path -> $absolutePath name -> $id"
     }
 }

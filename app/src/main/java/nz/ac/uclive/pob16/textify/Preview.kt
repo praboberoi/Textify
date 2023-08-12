@@ -20,6 +20,7 @@ class Preview : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = resources.getString(R.string.title_activity_preview)
         viewBinding = PreviewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 

@@ -12,6 +12,7 @@ class EditVisionText : AppCompatActivity() {
     private var imageURI: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = resources.getString(R.string.title_edit)
         viewBinding = EditVisonTextBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 

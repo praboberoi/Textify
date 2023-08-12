@@ -97,7 +97,7 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val msg = "Photo captured succeeded"
+                    val msg = getString(R.string.photo_capture_success)
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     progressDialog.show()
                     scope.launch {

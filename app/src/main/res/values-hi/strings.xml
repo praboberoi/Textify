@@ -14,6 +14,8 @@
     <string name="processing">प्रक्रिया चल रही है…</string>
     <string name="use_saved_images">सहेजी गई छवियां</string>
     <string name="camera">कैमरा</string>
+    <string name="photo_capture_success">फ़ोटो खींचा गया सफल हुआ</string>
+    <string name="saved_images">सहेजी गई छवियाँ</string>
 
     <string name="change_language">भाषा बदलें</string>
     <string name="english">अंग्रेज़ी</string>

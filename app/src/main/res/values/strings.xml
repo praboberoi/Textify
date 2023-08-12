@@ -13,6 +13,8 @@
     <string name="processing">Processing…</string>
     <string name="use_saved_images">Saved Images</string>
     <string name="camera">Camera</string>
+    <string name="photo_capture_success">Photo captured succeeded</string>
+    <string name="saved_images">Saved Images</string>
 
     <string name="change_language">Change Language</string>
     <string name="english">English</string>

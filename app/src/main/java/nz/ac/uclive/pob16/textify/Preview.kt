@@ -2,6 +2,7 @@ package nz.ac.uclive.pob16.textify
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -15,10 +16,11 @@ class Preview : AppCompatActivity() {
     private lateinit var viewBinding: PreviewBinding
     private var visionText: String? = null
     private var previewImageURI: Uri? = null
-    private var animate = Animate(this)
+    private lateinit var animate : Animate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        animate = Animate(this)
         title = resources.getString(R.string.title_activity_preview)
         viewBinding = PreviewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
@@ -56,7 +58,10 @@ class Preview : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        animate.goBack()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            super.onBackPressed()
+            animate.goBack()
+        }
     }
+
 }

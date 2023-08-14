@@ -4,30 +4,27 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import nz.ac.uclive.pob16.textify.databinding.ActivityMainBinding
-import android.app.LocaleManager
-import android.content.Context
 import android.os.Build
-import android.os.LocaleList
 import androidx.appcompat.app.AlertDialog
 import nz.ac.uclive.pob16.textify.databinding.ChangeLanguageBinding
 import nz.ac.uclive.pob16.textify.helper.Animate
-import java.util.Locale
+import nz.ac.uclive.pob16.textify.helper.ChangeLanguage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
-    private var localeManager: LocaleManager? = null
     private lateinit var changeLanguageDialog: AlertDialog
     private lateinit var animate: Animate
+    private lateinit var changeLanguageHelper: ChangeLanguage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        changeLanguageHelper = ChangeLanguage(this)
+        changeLanguageHelper.let {
+            it.updateLanguage(it.getSavedLanguage(), null) }
+
         animate = Animate(this)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            localeManager = getSystemService(Context.LOCALE_SERVICE) as LocaleManager
-        }
 
         viewBinding.useCamera.setOnClickListener{ cameraActivity() }
         viewBinding.useSavedImages.setOnClickListener{ savedImagesActivity() }
@@ -54,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         builder.setCancelable(true)
 
         val currentAppLanguage = resources.configuration.locale.language
+
         if (currentAppLanguage == "en") {
             changeLanguage.english.isChecked = true
             changeLanguage.hindi.isChecked = false
@@ -69,31 +67,16 @@ class MainActivity : AppCompatActivity() {
         changeLanguageDialog.show()
 
 
-        changeLanguage.english.setOnClickListener{languageLanguage("en")}
-        changeLanguage.hindi.setOnClickListener{languageLanguage("hi")}
+        changeLanguage.english.setOnClickListener{changeLanguageHelper.updateLanguage("en", changeLanguageDialog)}
+        changeLanguage.hindi.setOnClickListener{changeLanguageHelper.updateLanguage("hi", changeLanguageDialog)}
     }
 
-
-    private fun languageLanguage(language: String) {
-        changeLanguageDialog.dismiss()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (language == "hi") {
-                localeManager?.applicationLocales = LocaleList(Locale.forLanguageTag("hi"))
-            } else {
-                localeManager?.applicationLocales = LocaleList(Locale.ENGLISH)
-            }
-
-        } else {
-            val configuration = resources.configuration
-            configuration.locale = Locale(language)
-            resources.updateConfiguration(configuration, resources.displayMetrics)
-            onConfigurationChanged(configuration)
-            recreate()
+    override fun onBackPressed() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            super.onBackPressed()
+            animate.goBack()
         }
     }
-    override fun onBackPressed() {
-        super.onBackPressed()
-        animate.goBack()
-    }
+
 
 }

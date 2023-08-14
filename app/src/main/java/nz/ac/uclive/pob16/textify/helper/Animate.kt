@@ -12,7 +12,10 @@ class Animate(private val activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             activity.onBackInvokedDispatcher.registerOnBackInvokedCallback(
                 OnBackInvokedDispatcher.PRIORITY_DEFAULT
-            ) { this.goBack() }
+            ) {
+                activity.finish()
+                this.goBack()
+            }
         }
     }
 

@@ -1,36 +1,24 @@
 package nz.ac.uclive.pob16.textify
 
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AlertDialog
 import nz.ac.uclive.pob16.textify.databinding.ShareDialogBinding
-import java.io.File
 
 class ShareDialog(context: Context, private var visionText: String?, private var imageURI: Uri?): AlertDialog(context) {
-    private var shareDialogBinding: ShareDialogBinding
-    private var shareDialog: AlertDialog
+    private var shareDialogBinding: ShareDialogBinding = ShareDialogBinding.inflate(layoutInflater)
 
     init {
-        val builder = Builder(context)
-        shareDialogBinding = ShareDialogBinding.inflate(layoutInflater)
-        builder.setView(shareDialogBinding.root)
-        builder.setCancelable(true)
-        shareDialog = builder.create()
+        this.setView(shareDialogBinding.root)
+        this.setCancelable(true)
+        this.create()
 
         shareDialogBinding.share.setOnClickListener { shareResources() }
         shareDialogBinding.cancelButton.setOnClickListener{ dismiss() }
     }
 
-    override fun show() {
-        shareDialog.show()
-    }
-
-    override fun dismiss() {
-        shareDialog.dismiss()
-        val intent = Intent(context, CameraActivity::class.java)
-        context.startActivity(intent)
-    }
 
     private fun shareResources() {
 
@@ -44,7 +32,10 @@ class ShareDialog(context: Context, private var visionText: String?, private var
             type = "image/jpeg"
         }
         this.dismiss()
+        val intent = Intent(context, MainActivity::class.java)
+        context.startActivity(intent)
         context.startActivity(Intent.createChooser(shareIntent, "Textify"))
+
     }
 }
 

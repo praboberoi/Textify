@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nz.ac.uclive.pob16.textify.databinding.ProgressDialogBinding
+import nz.ac.uclive.pob16.textify.helper.Animate
 import nz.ac.uclive.pob16.textify.helper.TextRecognizer
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -37,6 +38,8 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: AlertDialog
 
+    private lateinit var animate: Animate
+
     companion object {
         private const val TAG = "Textify"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -48,6 +51,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        animate = Animate(this)
         viewBinding = CameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
@@ -101,7 +105,7 @@ class CameraActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     progressDialog.show()
                     scope.launch {
-                        textRecognizer.analyze(output.savedUri, context);
+                        textRecognizer.analyze(output.savedUri, context)
                         val visionText = textRecognizer.visionText
 
                         val intent = Intent(context, nz.ac.uclive.pob16.textify.Preview::class.java)
@@ -109,6 +113,7 @@ class CameraActivity : AppCompatActivity() {
                         intent.putExtra("previewImageURI", output.savedUri.toString())
                         startActivity(intent)
                         progressDialog.dismiss()
+                        animate.goForward()
                     }
 
                 }
@@ -181,6 +186,11 @@ class CameraActivity : AppCompatActivity() {
         builder.setView(progressDialog.root)
         builder.setCancelable(false)
         return builder.create()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animate.goBack()
     }
 
 }

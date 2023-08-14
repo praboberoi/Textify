@@ -2,21 +2,20 @@ package nz.ac.uclive.pob16.textify
 
 import android.content.Intent
 import android.net.Uri
-import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 
 import androidx.core.net.toUri
 
 import nz.ac.uclive.pob16.textify.databinding.PreviewBinding
+import nz.ac.uclive.pob16.textify.helper.Animate
 
 
 class Preview : AppCompatActivity() {
     private lateinit var viewBinding: PreviewBinding
-    private var TAG = "Preview"
     private var visionText: String? = null
     private var previewImageURI: Uri? = null
+    private var animate = Animate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +42,21 @@ class Preview : AppCompatActivity() {
         intent.putExtra("visionText", visionText)
         intent.putExtra("previewImageURI", previewImageURI.toString())
         startActivity(intent)
+        animate.goForward()
     }
 
     private fun openShareDialog() {
         val sharedDialog = ShareDialog(this, visionText, previewImageURI)
         sharedDialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animate.goBack()
     }
 }

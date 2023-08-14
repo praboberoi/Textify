@@ -1,15 +1,12 @@
 package nz.ac.uclive.pob16.textify
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nz.ac.uclive.pob16.textify.databinding.ActivitySavedImagesBinding
 import nz.ac.uclive.pob16.textify.databinding.ProgressDialogBinding
+import nz.ac.uclive.pob16.textify.helper.Animate
 import nz.ac.uclive.pob16.textify.helper.Image
 import nz.ac.uclive.pob16.textify.helper.SavedImageAdapter
 import nz.ac.uclive.pob16.textify.helper.TextRecognizer
@@ -27,9 +25,11 @@ class SavedImages: AppCompatActivity() {
     private lateinit var viewBinding: ActivitySavedImagesBinding
     private var imageList = mutableListOf<Image>()
     private lateinit var progressDialog: AlertDialog
+    private lateinit var animate: Animate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        animate = Animate(this)
         title = resources.getString(R.string.saved_images)
         viewBinding = ActivitySavedImagesBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
@@ -88,8 +88,6 @@ class SavedImages: AppCompatActivity() {
                 "${context.packageName}.provider",
                 File(filePath))
 
-
-
             textRecognizer.analyze(shareableUri, context)
             val visionText = textRecognizer.visionText
 
@@ -99,6 +97,7 @@ class SavedImages: AppCompatActivity() {
             startActivity(intent)
 
             progressDialog.dismiss()
+            animate.goForward()
         }
 
     }
@@ -109,5 +108,10 @@ class SavedImages: AppCompatActivity() {
         builder.setView(progressDialog.root)
         builder.setCancelable(false)
         return builder.create()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animate.goBack()
     }
 }

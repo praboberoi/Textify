@@ -1,6 +1,5 @@
 package nz.ac.uclive.pob16.textify.helper
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,8 @@ class SavedImageAdapter(
     private val imageList: List<Image>,
     private val onImageClickListener: (Image) -> Unit):
     RecyclerView.Adapter<SavedImageAdapter.ViewHolder>() {
-    private lateinit var parentContext: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        parentContext = parent.context
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
 

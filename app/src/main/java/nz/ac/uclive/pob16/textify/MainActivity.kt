@@ -3,38 +3,25 @@ package nz.ac.uclive.pob16.textify
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
-import androidx.loader.content.CursorLoader
 import nz.ac.uclive.pob16.textify.databinding.ActivityMainBinding
-import nz.ac.uclive.pob16.textify.helper.Image
-import android.Manifest
 import android.app.LocaleManager
 import android.content.Context
-import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
-import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import nz.ac.uclive.pob16.textify.databinding.ActivitySavedImagesBinding
 import nz.ac.uclive.pob16.textify.databinding.ChangeLanguageBinding
+import nz.ac.uclive.pob16.textify.helper.Animate
 import java.util.Locale
-import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
     private var localeManager: LocaleManager? = null
     private lateinit var changeLanguageDialog: AlertDialog
-    var  REQUEST_CODE = 1234
+    private lateinit var animate: Animate
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        animate = Animate(this)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
@@ -46,23 +33,18 @@ class MainActivity : AppCompatActivity() {
         viewBinding.useSavedImages.setOnClickListener{ savedImagesActivity() }
         viewBinding.changeLanguage.setOnClickListener{ changeLanguageDialog() }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_CODE)
-            return
-        }
-
-
     }
 
     private fun cameraActivity() {
         val intent = Intent(this, CameraActivity::class.java)
         startActivity(intent)
+        animate.goForward()
     }
 
     private fun savedImagesActivity() {
         val intent = Intent(this, SavedImages::class.java)
         startActivity(intent)
+        animate.goForward()
     }
 
     private fun changeLanguageDialog() {
@@ -108,6 +90,10 @@ class MainActivity : AppCompatActivity() {
             onConfigurationChanged(configuration)
             recreate()
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        animate.goBack()
     }
 
 }
